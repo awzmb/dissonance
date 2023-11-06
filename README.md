@@ -63,12 +63,16 @@ inside you to overcome dissonance in your favor!
 - [aubio](https://github.com/aubio/aubio)
 
 Aubio installation: 
-- Ubuntu: `sudo apt-get install aubio-tools libaubio-dev libaubio-doc`  
-- For other linux distros and MacOs a `make aubio` step is included in this project
+- Ubuntu: `sudo apt-get install aubio-tools libaubio-dev libaubio-doc`
+- Fedora: `sudo dnf -y install aubio-lib aubio-devel aubio`
+- For other linux distros and MacOs a `make aubio` step is included in this project.
 - If none of the above is working for you, checkout the official aubio-download page: 
   https://aubio.org/download
+- If you're getting struck by `ValueError: invalid mode: 'rUb'`, change line 12 of
+deps/aubio-0.4.7 from `WAFCMD=python waf` to `WAFCMD=python2 waf`.
 
-You might also need to install some media libraries to play audio which is not in `.wav` 
+
+You might also need to install some media libraries to play audio which is not in `.wav`
 format. So if loading `.mp3` files or other audio-files like `.ogg` is not
 working for you, please refer to the
 [aubio-documentation](https://aubio.org/manual/latest/installing.html#external-libraries)
@@ -76,6 +80,22 @@ working for you, please refer to the
 
 
 ### Installation<a name="install"></a>
+
+#### Premise
+In case you have never used `conan` or `cmake` before, install the dependencies:
+- Ubuntu: `sudo apt-get install conan`
+- Fedora: `sudo dnf -y install cmake rhash` and `pip install conan==1.61.0`
+
+```
+python3 -m venv conan-venv
+source conan-venv/bin/activate
+pip install conan==1.59
+conan --version
+```
+
+Before the first run, execute `conan profile detect` to create a new profile in
+your home directory.
+
 
 #### Quick-quide<a name="quick-guide"></a>
 ```python

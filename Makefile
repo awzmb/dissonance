@@ -10,7 +10,7 @@ aubio_apple:
 	# Unzip aubio-framework and delete zip
 	unzip deps/$(AUBIO_FRAMEWORK).zip -d $(AUBIO_FRAMEWORK) && rm deps/$(AUBIO_FRAMEWORK).zip
 	# Copy headers to `src/aubio`. 
-	rm -rf src/aubio; mkdir src/aubio
+	rm -rf src/aubio; mkdir -p src/aubio
 	cp -r $(AUBIO_FRAMEWORK)/aubio-$(AUBIO_VERSION).darwin_framework/aubio.framework/Headers/* src/aubio/
 	rm -rf $(AUBIO_FRAMEWORK)
 
@@ -20,8 +20,8 @@ aubio_general:
 	wget -O deps/aubio-$(AUBIO_VERSION).tar.bz2 https://aubio.org/pub/aubio-$(AUBIO_VERSION).tar.bz2
 	# sudo ln -sf /usr/bin/python3 /usr/bin/python
 	cd deps && tar xf aubio-$(AUBIO_VERSION).tar.bz2 && rm aubio-$(AUBIO_VERSION).tar.bz2
-	cd deps/aubio-$(AUBIO_VERSION) && ./waf configure build
-	cd deps/aubio-$(AUBIO_VERSION) && sudo ./waf install
+	cd deps/aubio-$(AUBIO_VERSION) && python2 waf configure build
+	cd deps/aubio-$(AUBIO_VERSION) && sudo python2 waf install
 
 aubio:
 	make aubio_general
@@ -31,8 +31,9 @@ endif
 
 build:
 	# Create build folder and install conan-dependencies.
-	rm -rf build; mkdir build
+	rm -rf build; mkdir -p build
 ifeq ($(UNAME_S),Linux)
+	echo $UNAME_S
 	cd build && conan install .. --build=missing -s compiler.libcxx=libstdc++11
 else
 	cd build && conan install .. --build=missing
